@@ -14,25 +14,55 @@
     min-height: 100vh;
     padding: 24px 16px 60px;
   }
-  h1 {
-    font-size: 20px;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 4px;
-    color: #4a2e99;
+  h1 { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 4px; color: #4a2e99; }
+  .subtitle { text-align: center; font-size: 13px; color: #888; margin-bottom: 14px; }
+
+  /* D-day 카운터 */
+  .dday-box {
+    max-width: 480px;
+    margin: 0 auto 12px;
+    background: linear-gradient(135deg, #7c4dff, #b47bff);
+    border-radius: 16px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(124,77,255,0.25);
   }
-  .subtitle {
-    text-align: center;
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 20px;
+  .dday-left { font-size: 13px; opacity: 0.9; line-height: 1.7; }
+  .dday-right { text-align: right; }
+  .dday-num { font-size: 20px; font-weight: 900; letter-spacing: -0.5px; }
+  .dday-sub { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+
+  /* 100일 칸 바 */
+  .track-wrap {
+    max-width: 480px;
+    margin: 0 auto 18px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px rgba(100,60,200,0.07);
   }
-  .date-bar {
-    text-align: center;
-    font-size: 13px;
-    color: #666;
-    margin-bottom: 18px;
+  .track-title { font-size: 12px; color: #888; margin-bottom: 10px; font-weight: 600; }
+  .track-grid {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 3px;
   }
+  .track-cell {
+    aspect-ratio: 1;
+    border-radius: 3px;
+    background: #ede9ff;
+    position: relative;
+  }
+  .track-cell.done    { background: #7c4dff; }
+  .track-cell.missed  { background: #ff4444; }
+  .track-cell.today   { outline: 2px solid #7c4dff; outline-offset: 1px; }
+  .track-cell.today.done   { outline-color: #5a2ecf; }
+  .track-cell.today.missed { outline-color: #cc0000; }
+
+  .date-bar { text-align: center; font-size: 13px; color: #666; margin-bottom: 14px; }
   .progress-wrap {
     background: #e8e0ff;
     border-radius: 999px;
@@ -48,13 +78,8 @@
     transition: width 0.4s ease;
     width: 0%;
   }
-  .progress-label {
-    text-align: center;
-    font-size: 12px;
-    color: #7c4dff;
-    font-weight: 700;
-    margin-bottom: 22px;
-  }
+  .progress-label { text-align: center; font-size: 12px; color: #7c4dff; font-weight: 700; margin-bottom: 22px; }
+
   .section {
     background: #fff;
     border-radius: 16px;
@@ -71,11 +96,7 @@
     border-bottom: 1px solid #f0eeff;
   }
   .section-emoji { font-size: 20px; }
-  .section-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: #4a2e99;
-  }
+  .section-title { font-size: 15px; font-weight: 700; color: #4a2e99; }
   .section-badge {
     margin-left: auto;
     font-size: 11px;
@@ -85,115 +106,88 @@
     padding: 3px 9px;
     font-weight: 600;
   }
-  .day-tabs {
-    display: flex;
-    border-bottom: 1px solid #f0eeff;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
+  .day-tabs { display: flex; border-bottom: 1px solid #f0eeff; overflow-x: auto; scrollbar-width: none; }
   .day-tabs::-webkit-scrollbar { display: none; }
   .day-tab {
-    flex: 1;
-    min-width: 44px;
-    padding: 8px 4px;
-    text-align: center;
-    font-size: 12px;
-    font-weight: 600;
-    color: #aaa;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
+    flex: 1; min-width: 44px; padding: 8px 4px;
+    text-align: center; font-size: 12px; font-weight: 600;
+    color: #aaa; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s;
   }
-  .day-tab.active {
-    color: #7c4dff;
-    border-bottom: 2px solid #7c4dff;
-  }
+  .day-tab.active { color: #7c4dff; border-bottom: 2px solid #7c4dff; }
   .task-list { padding: 8px 0; }
   .task-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 11px 18px;
-    cursor: pointer;
-    transition: background 0.15s;
-    border-bottom: 1px solid #fafafa;
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 18px; cursor: pointer;
+    transition: background 0.15s; border-bottom: 1px solid #fafafa;
   }
   .task-item:last-child { border-bottom: none; }
   .task-item:hover { background: #faf8ff; }
   .task-item.done .task-text { text-decoration: line-through; color: #bbb; }
   .task-checkbox {
-    width: 24px;
-    height: 24px;
-    border-radius: 8px;
-    border: 2px solid #d0c4f7;
-    flex-shrink: 0;
-    margin-top: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    font-size: 15px;
-    background: #faf8ff;
+    width: 20px; height: 20px; border-radius: 6px;
+    border: 2px solid #d0c4f7; flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; font-size: 12px; background: #fff;
   }
-  .task-item.done .task-checkbox {
-    background: #f0eeff;
-    border-color: #b47bff;
-  }
+  .task-item.done .task-checkbox { background: #7c4dff; border-color: #7c4dff; color: #fff; }
   .task-text { font-size: 14px; line-height: 1.5; }
   .task-tag {
-    display: inline-block;
-    font-size: 10px;
-    padding: 1px 6px;
-    border-radius: 999px;
-    margin-top: 3px;
-    font-weight: 600;
+    display: inline-block; font-size: 10px; padding: 1px 6px;
+    border-radius: 999px; margin-top: 3px; font-weight: 600;
   }
-  .tag-insta { background: #ffedf5; color: #e0457a; }
-  .tag-yt1   { background: #fff1e6; color: #e07020; }
-  .tag-yt2   { background: #e6f4ff; color: #2080e0; }
-  .tag-site  { background: #e8ffee; color: #20a050; }
-  .tag-attach{ background: #fff0f8; color: #cc3399; }
-  .tag-all   { background: #f0eeff; color: #7c4dff; }
+  .tag-insta  { background: #ffedf5; color: #e0457a; }
+  .tag-yt1    { background: #fff1e6; color: #e07020; }
+  .tag-yt2    { background: #e6f4ff; color: #2080e0; }
+  .tag-site   { background: #e8ffee; color: #20a050; }
+  .tag-attach { background: #fff0f8; color: #cc3399; }
+  .tag-all    { background: #f0eeff; color: #7c4dff; }
   .reset-btn {
-    display: block;
-    margin: 0 auto;
-    max-width: 480px;
-    width: 100%;
-    padding: 13px;
-    background: #f0eeff;
-    color: #7c4dff;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.2s;
+    display: block; margin: 0 auto; max-width: 480px; width: 100%;
+    padding: 13px; background: #f0eeff; color: #7c4dff; border: none;
+    border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background 0.2s;
   }
   .reset-btn:hover { background: #e0d4ff; }
   .tip-box {
-    background: #fff;
-    border-radius: 16px;
-    max-width: 480px;
-    margin: 0 auto 16px;
-    padding: 14px 18px;
+    background: #fff; border-radius: 16px; max-width: 480px;
+    margin: 0 auto 16px; padding: 14px 18px;
     box-shadow: 0 2px 10px rgba(100,60,200,0.07);
   }
   .tip-box h3 { font-size: 13px; color: #7c4dff; font-weight: 700; margin-bottom: 8px; }
   .tip-box ul { padding-left: 16px; }
   .tip-box li { font-size: 12px; color: #666; line-height: 1.8; }
-  @keyframes popIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
-  }
+  @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 </style>
 </head>
 <body>
 
 <h1>🌸 하루 콘텐츠 체크리스트</h1>
 <p class="subtitle">구독탈출 · 애착테스트 · 시리어스걸 · 반려쓸잡 · 꿀팁집</p>
-<div class="date-bar" id="dateBar"></div>
 
+<!-- D-day -->
+<div class="dday-box">
+  <div class="dday-left">
+    🔥 2026년 5월 29일 시작<br>
+    목표까지 매일 완주!
+  </div>
+  <div class="dday-right">
+    <div class="dday-num" id="ddayNum">D-100</div>
+    <div class="dday-sub" id="ddaySub">0일째</div>
+  </div>
+</div>
+
+<!-- 100칸 트래커 -->
+<div class="track-wrap">
+  <div class="track-title">📅 100일 기록 &nbsp;
+    <span style="display:inline-flex;align-items:center;gap:6px;font-weight:400;color:#999">
+      <span style="width:10px;height:10px;background:#7c4dff;border-radius:2px;display:inline-block"></span>완료
+      <span style="width:10px;height:10px;background:#ff4444;border-radius:2px;display:inline-block"></span>미완료
+      <span style="width:10px;height:10px;background:#ede9ff;border-radius:2px;display:inline-block"></span>예정
+    </span>
+  </div>
+  <div class="track-grid" id="trackGrid"></div>
+</div>
+
+<div class="date-bar" id="dateBar"></div>
 <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
 <div class="progress-label" id="progressLabel">0 / 0 완료</div>
 
@@ -225,7 +219,6 @@
   <div class="task-list" id="dailyTasks"></div>
 </div>
 
-<!-- 업로드 주기 가이드 -->
 <div class="tip-box">
   <h3>📊 플랫폼별 업로드 주기 가이드</h3>
   <ul>
@@ -240,32 +233,28 @@
 <button class="reset-btn" onclick="resetToday()">🔄 오늘 체크리스트 초기화</button>
 
 <script>
-const DAYS = ['일','월','화','수','목','금','토'];
-
-// 체크박스 이모지 (미완료 / 완료)
-const UNCHECKED = '🤍';
-const CHECKED   = '💜';
+const DAYS       = ['일','월','화','수','목','금','토'];
+const START      = new Date('2026-05-29T00:00:00');
+const GOAL       = 100;
 
 // 요일별 업로드 계획 (매일 동일)
 const uploadSchedule = {};
 for (let d = 0; d < 7; d++) {
-  const dayKeys = ['sun','mon','tue','wed','thu','fri','sat'];
-  const k = dayKeys[d];
+  const ks = ['sun','mon','tue','wed','thu','fri','sat'];
+  const k  = ks[d];
   uploadSchedule[d] = [
-    { text: '📸 인스타 시리어스걸 피드 1개 업로드',    tag: 'tag-insta',  label: '시리어스걸', key: k+'_insta1'  },
+    { text: '📸 인스타 시리어스걸 피드 1개 업로드',     tag: 'tag-insta',  label: '시리어스걸', key: k+'_insta1'  },
     { text: '📸 인스타 시리어스걸 스토리 2~3개 업로드', tag: 'tag-insta',  label: '시리어스걸', key: k+'_story'   },
-    { text: '💗 인스타 애착테스트 피드 1번 업로드',     tag: 'tag-attach', label: '애착테스트', key: k+'_attach1' },
-    { text: '💗 인스타 애착테스트 피드 2번 업로드',     tag: 'tag-attach', label: '애착테스트', key: k+'_attach2' },
-    { text: '💗 인스타 애착테스트 피드 3번 업로드',     tag: 'tag-attach', label: '애착테스트', key: k+'_attach3' },
-    { text: '💗 인스타 애착테스트 피드 4번 업로드',     tag: 'tag-attach', label: '애착테스트', key: k+'_attach4' },
-    { text: '💗 인스타 애착테스트 피드 5번 업로드',     tag: 'tag-attach', label: '애착테스트', key: k+'_attach5' },
-    { text: '🐾 유튜브 반려쓸잡 영상 1개 업로드',       tag: 'tag-yt1',    label: '반려쓸잡',   key: k+'_yt1'    },
-    { text: '💡 유튜브 꿀팁집 영상 1개 업로드',         tag: 'tag-yt2',    label: '꿀팁집',     key: k+'_yt2'    },
-    { text: '✍️ 구독탈출 블로그 포스트 1개 발행',        tag: 'tag-site',   label: '구독탈출',   key: k+'_blog'   },
+    { text: '💗 인스타 애착테스트 피드 1번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach1' },
+    { text: '💗 인스타 애착테스트 피드 2번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach2' },
+    { text: '💗 인스타 애착테스트 피드 3번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach3' },
+    { text: '💗 인스타 애착테스트 피드 4번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach4' },
+    { text: '💗 인스타 애착테스트 피드 5번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach5' },
+    { text: '🐾 유튜브 반려쓸잡 영상 1개 업로드',        tag: 'tag-yt1',    label: '반려쓸잡',   key: k+'_yt1'    },
+    { text: '💡 유튜브 꿀팁집 영상 1개 업로드',          tag: 'tag-yt2',    label: '꿀팁집',     key: k+'_yt2'    },
+    { text: '✍️ 구독탈출 블로그 포스트 1개 발행',         tag: 'tag-site',   label: '구독탈출',   key: k+'_blog'   },
   ];
 }
-
-// 매일 공통
 const dailyTasks = [
   { text: '📊 시리어스걸·애착테스트 댓글·DM 답장', tag: 'tag-insta', label: '인스타',   key: 'daily_dm'         },
   { text: '📊 유튜브 댓글 확인 & 답장',             tag: 'tag-all',  label: '공통',     key: 'daily_yt_comment' },
@@ -273,19 +262,49 @@ const dailyTasks = [
   { text: '📈 구독탈출 블로그 유입·통계 체크',        tag: 'tag-site', label: '구독탈출', key: 'daily_stats'      },
 ];
 
-function getStorageKey(key) {
-  const today = new Date().toISOString().slice(0,10);
-  return `checklist_${today}_${key}`;
-}
+// 날짜 → 저장키
+function dateStr(d) { return d.toISOString().slice(0,10); }
+function todayStr()  { return dateStr(new Date()); }
 
+function getTaskKey(key, dateS) {
+  return `checklist_${dateS}_${key}`;
+}
 function isChecked(key) {
-  return localStorage.getItem(getStorageKey(key)) === '1';
+  return localStorage.getItem(getTaskKey(key, todayStr())) === '1';
 }
-
 function toggleCheck(key) {
   const cur = isChecked(key);
-  localStorage.setItem(getStorageKey(key), cur ? '0' : '1');
+  localStorage.setItem(getTaskKey(key, todayStr()), cur ? '0' : '1');
+  // 오늘 전체 완료 여부 기록
+  saveDayStatus();
   render();
+}
+
+// 해당 날짜의 모든 태스크 완료 여부 저장
+function saveDayStatus() {
+  const today = new Date();
+  const dow = today.getDay();
+  const allItems = [...(uploadSchedule[dow] || []), ...dailyTasks];
+  const ds = todayStr();
+  const allDone = allItems.every(i => localStorage.getItem(getTaskKey(i.key, ds)) === '1');
+  const anyDone = allItems.some(i => localStorage.getItem(getTaskKey(i.key, ds)) === '1');
+  if (allDone) {
+    localStorage.setItem(`day_status_${ds}`, 'done');
+  } else if (anyDone) {
+    localStorage.setItem(`day_status_${ds}`, 'partial');
+  } else {
+    localStorage.removeItem(`day_status_${ds}`);
+  }
+}
+
+function getDayStatus(ds) {
+  return localStorage.getItem(`day_status_${ds}`) || '';
+}
+
+// 날짜 인덱스 (0=시작일)
+function dayIndex(dateS) {
+  const d = new Date(dateS + 'T00:00:00');
+  return Math.round((d - START) / 86400000);
 }
 
 function makeTaskItem(item) {
@@ -293,7 +312,7 @@ function makeTaskItem(item) {
   const div = document.createElement('div');
   div.className = 'task-item' + (checked ? ' done' : '');
   div.innerHTML = `
-    <div class="task-checkbox">${checked ? CHECKED : UNCHECKED}</div>
+    <div class="task-checkbox">${checked ? '✓' : ''}</div>
     <div>
       <div class="task-text">${item.text}</div>
       <span class="task-tag ${item.tag}">${item.label}</span>
@@ -307,32 +326,46 @@ let selectedDay = new Date().getDay();
 
 function render() {
   const now = new Date();
+  const ds  = todayStr();
+  const idx = dayIndex(ds); // 0-based
+  const dNum = GOAL - idx;  // D-100, D-99 ...
+
+  // D-day
+  document.getElementById('ddayNum').textContent = 'D-' + Math.max(dNum, 1);
+  document.getElementById('ddaySub').textContent = (idx + 1) + '일째 / 100일';
+
+  // 날짜
   document.getElementById('dateBar').textContent =
     `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 ${DAYS[now.getDay()]}요일`;
 
+  // 탭
   document.querySelectorAll('.day-tab').forEach(t => {
     t.classList.toggle('active', parseInt(t.dataset.day) === selectedDay);
   });
-
   document.getElementById('todayBadge').textContent = DAYS[selectedDay] + '요일';
 
+  // 업로드 계획
   const planEl = document.getElementById('uploadPlan');
   planEl.innerHTML = '';
   (uploadSchedule[selectedDay] || []).forEach(item => planEl.appendChild(makeTaskItem(item)));
 
+  // 매일 할 일
   const dailyEl = document.getElementById('dailyTasks');
   dailyEl.innerHTML = '';
   dailyTasks.forEach(item => dailyEl.appendChild(makeTaskItem(item)));
 
   // 진행률
-  const todayItems = [...(uploadSchedule[selectedDay] || []), ...dailyTasks];
+  const todayItems = [...(uploadSchedule[now.getDay()] || []), ...dailyTasks];
   const done  = todayItems.filter(i => isChecked(i.key)).length;
   const total = todayItems.length;
   const pct   = total ? Math.round(done / total * 100) : 0;
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressLabel').textContent = `${done} / ${total} 완료 (${pct}%)`;
 
-  // 완료 칭찬 메시지
+  // 100칸 트래커
+  renderTrack(idx);
+
+  // 칭찬 메시지
   const existing = document.getElementById('praiseBox');
   if (done === total && total > 0) {
     if (!existing) {
@@ -351,12 +384,35 @@ function render() {
   }
 }
 
+function renderTrack(todayIdx) {
+  const grid = document.getElementById('trackGrid');
+  grid.innerHTML = '';
+  for (let i = 0; i < GOAL; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'track-cell';
+    const d = new Date(START);
+    d.setDate(d.getDate() + i);
+    const ds = dateStr(d);
+    const status = getDayStatus(ds);
+    if (i === todayIdx) cell.classList.add('today');
+    if (i < todayIdx) {
+      // 지난 날: done이면 보라, 아니면 빨강
+      cell.classList.add(status === 'done' ? 'done' : 'missed');
+    } else if (i === todayIdx) {
+      if (status === 'done') cell.classList.add('done');
+      else if (status === 'partial') cell.classList.add('missed');
+    }
+    grid.appendChild(cell);
+  }
+}
+
 function resetToday() {
   if (!confirm('오늘 체크리스트를 초기화할까요?')) return;
-  const today = new Date().toISOString().slice(0,10);
+  const ds = todayStr();
   Object.keys(localStorage)
-    .filter(k => k.startsWith(`checklist_${today}_`))
+    .filter(k => k.startsWith(`checklist_${ds}_`))
     .forEach(k => localStorage.removeItem(k));
+  localStorage.removeItem(`day_status_${ds}`);
   render();
 }
 
