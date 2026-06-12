@@ -17,7 +17,7 @@
   h1 { font-size: 20px; font-weight: 800; text-align: center; margin-bottom: 4px; color: #4a2e99; }
   .subtitle { text-align: center; font-size: 13px; color: #888; margin-bottom: 14px; }
 
-  /* D-day 카운터 */
+  /* D-day */
   .dday-box {
     max-width: 480px;
     margin: 0 auto 12px;
@@ -45,17 +45,8 @@
     box-shadow: 0 2px 10px rgba(100,60,200,0.07);
   }
   .track-title { font-size: 12px; color: #888; margin-bottom: 10px; font-weight: 600; }
-  .track-grid {
-    display: grid;
-    grid-template-columns: repeat(20, 1fr);
-    gap: 3px;
-  }
-  .track-cell {
-    aspect-ratio: 1;
-    border-radius: 3px;
-    background: #ede9ff;
-    position: relative;
-  }
+  .track-grid { display: grid; grid-template-columns: repeat(20, 1fr); gap: 3px; }
+  .track-cell { aspect-ratio: 1; border-radius: 3px; background: #ede9ff; position: relative; }
   .track-cell.done    { background: #7c4dff; }
   .track-cell.missed  { background: #ff4444; }
   .track-cell.today   { outline: 2px solid #7c4dff; outline-offset: 1px; }
@@ -161,12 +152,12 @@
 <body>
 
 <h1>🌸 하루 콘텐츠 체크리스트</h1>
-<p class="subtitle">구독탈출 · 애착테스트 · 시리어스걸 · 반려쓸잡 · 꿀팁집</p>
+<p class="subtitle">반려쓸잡 · 꿀팁집 · 시리어스걸 · 커플사이트</p>
 
 <!-- D-day -->
 <div class="dday-box">
   <div class="dday-left">
-    🔥 2026년 5월 29일 시작<br>
+    🔥 2026년 6월 14일 시작<br>
     목표까지 매일 완주!
   </div>
   <div class="dday-right">
@@ -220,67 +211,60 @@
 </div>
 
 <div class="tip-box">
-  <h3>📊 플랫폼별 업로드 주기 가이드</h3>
+  <h3>📊 매일 업로드 가이드</h3>
   <ul>
-    <li>📸 <b>시리어스걸 인스타</b> — 1일 1피드 + 스토리 2~3개</li>
-    <li>💗 <b>애착테스트 인스타</b> — 1일 5피드</li>
-    <li>🐾 <b>유튜브 반려쓸잡</b> — 1일 1영상</li>
-    <li>💡 <b>유튜브 꿀팁집</b> — 1일 1영상</li>
-    <li>✍️ <b>구독탈출 블로그</b> — 1일 1포스트 (30~40분 소요)</li>
+    <li>🐾 <b>반려쓸잡</b> — 유튜브 영상 1개</li>
+    <li>💡 <b>꿀팁집</b> — 유튜브 영상 1개</li>
+    <li>📸 <b>시리어스걸</b> — 영상 1개를 인스타 · 스레드 · 틱톡에 업로드</li>
+    <li>💗 <b>커플사이트</b> — 릴스 2개를 인스타 · 스레드에 각각 업로드 (총 4건)</li>
+    <li>✍️ <b>커플사이트</b> — 블로그 포스트 1개</li>
   </ul>
 </div>
 
 <button class="reset-btn" onclick="resetToday()">🔄 오늘 체크리스트 초기화</button>
 
 <script>
-const DAYS       = ['일','월','화','수','목','금','토'];
-const START      = new Date('2026-05-29T00:00:00');
-const GOAL       = 100;
+const DAYS  = ['일','월','화','수','목','금','토'];
+const START = new Date('2026-06-14T00:00:00');
+const GOAL  = 100;
 
-// 요일별 업로드 계획 (매일 동일)
+// 매일 동일한 업로드 계획
+const dailyUpload = [
+  { text: '🐾 반려쓸잡 영상 업로드 (유튜브)',          tag: 'tag-yt1',    label: '반려쓸잡',   key: 'yt1' },
+  { text: '💡 꿀팁집 영상 업로드 (유튜브)',            tag: 'tag-yt2',    label: '꿀팁집',     key: 'yt2' },
+  { text: '📸 시리어스걸 영상 업로드 - 인스타',         tag: 'tag-insta',  label: '시리어스걸', key: 'sg_insta'  },
+  { text: '🧵 시리어스걸 영상 업로드 - 스레드',         tag: 'tag-insta',  label: '시리어스걸', key: 'sg_threads' },
+  { text: '🎵 시리어스걸 영상 업로드 - 틱톡',           tag: 'tag-insta',  label: '시리어스걸', key: 'sg_tiktok' },
+  { text: '💗 커플사이트 릴스 1 업로드 - 인스타',       tag: 'tag-attach', label: '커플사이트', key: 'cp_reel1_insta'   },
+  { text: '💗 커플사이트 릴스 1 업로드 - 스레드',       tag: 'tag-attach', label: '커플사이트', key: 'cp_reel1_threads' },
+  { text: '💗 커플사이트 릴스 2 업로드 - 인스타',       tag: 'tag-attach', label: '커플사이트', key: 'cp_reel2_insta'   },
+  { text: '💗 커플사이트 릴스 2 업로드 - 스레드',       tag: 'tag-attach', label: '커플사이트', key: 'cp_reel2_threads' },
+  { text: '✍️ 커플사이트 블로그 포스트 업로드',          tag: 'tag-site',   label: '커플사이트', key: 'cp_blog' },
+];
+
 const uploadSchedule = {};
-for (let d = 0; d < 7; d++) {
-  const ks = ['sun','mon','tue','wed','thu','fri','sat'];
-  const k  = ks[d];
-  uploadSchedule[d] = [
-    { text: '📸 인스타 시리어스걸 피드 1개 업로드',     tag: 'tag-insta',  label: '시리어스걸', key: k+'_insta1'  },
-    { text: '📸 인스타 시리어스걸 스토리 2~3개 업로드', tag: 'tag-insta',  label: '시리어스걸', key: k+'_story'   },
-    { text: '💗 인스타 애착테스트 피드 1번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach1' },
-    { text: '💗 인스타 애착테스트 피드 2번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach2' },
-    { text: '💗 인스타 애착테스트 피드 3번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach3' },
-    { text: '💗 인스타 애착테스트 피드 4번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach4' },
-    { text: '💗 인스타 애착테스트 피드 5번 업로드',      tag: 'tag-attach', label: '애착테스트', key: k+'_attach5' },
-    { text: '🐾 유튜브 반려쓸잡 영상 1개 업로드',        tag: 'tag-yt1',    label: '반려쓸잡',   key: k+'_yt1'    },
-    { text: '💡 유튜브 꿀팁집 영상 1개 업로드',          tag: 'tag-yt2',    label: '꿀팁집',     key: k+'_yt2'    },
-    { text: '✍️ 구독탈출 블로그 포스트 1개 발행',         tag: 'tag-site',   label: '구독탈출',   key: k+'_blog'   },
-  ];
-}
+for (let d = 0; d < 7; d++) uploadSchedule[d] = dailyUpload;
+
 const dailyTasks = [
-  { text: '📊 시리어스걸·애착테스트 댓글·DM 답장', tag: 'tag-insta', label: '인스타',   key: 'daily_dm'         },
-  { text: '📊 유튜브 댓글 확인 & 답장',             tag: 'tag-all',  label: '공통',     key: 'daily_yt_comment' },
-  { text: '🎬 내일 영상/콘텐츠 기획 메모',           tag: 'tag-all',  label: '공통',     key: 'daily_plan'       },
-  { text: '📈 구독탈출 블로그 유입·통계 체크',        tag: 'tag-site', label: '구독탈출', key: 'daily_stats'      },
+  { text: '📊 유튜브 댓글 확인 & 답장 (반려쓸잡·꿀팁집)',     tag: 'tag-all',  label: '공통', key: 'daily_yt_comment' },
+  { text: '📊 시리어스걸 댓글·DM 답장 (인스타·스레드·틱톡)',   tag: 'tag-insta', label: '시리어스걸', key: 'daily_sg_comment' },
+  { text: '📊 커플사이트 릴스 댓글 확인 (인스타·스레드)',     tag: 'tag-attach', label: '커플사이트', key: 'daily_cp_comment' },
+  { text: '🎬 내일 콘텐츠 기획 메모',                          tag: 'tag-all',  label: '공통', key: 'daily_plan' },
 ];
 
 // 날짜 → 저장키
 function dateStr(d) { return d.toISOString().slice(0,10); }
 function todayStr()  { return dateStr(new Date()); }
 
-function getTaskKey(key, dateS) {
-  return `checklist_${dateS}_${key}`;
-}
-function isChecked(key) {
-  return localStorage.getItem(getTaskKey(key, todayStr())) === '1';
-}
+function getTaskKey(key, dateS) { return `checklist_${dateS}_${key}`; }
+function isChecked(key) { return localStorage.getItem(getTaskKey(key, todayStr())) === '1'; }
 function toggleCheck(key) {
   const cur = isChecked(key);
   localStorage.setItem(getTaskKey(key, todayStr()), cur ? '0' : '1');
-  // 오늘 전체 완료 여부 기록
   saveDayStatus();
   render();
 }
 
-// 해당 날짜의 모든 태스크 완료 여부 저장
 function saveDayStatus() {
   const today = new Date();
   const dow = today.getDay();
@@ -296,12 +280,8 @@ function saveDayStatus() {
     localStorage.removeItem(`day_status_${ds}`);
   }
 }
+function getDayStatus(ds) { return localStorage.getItem(`day_status_${ds}`) || ''; }
 
-function getDayStatus(ds) {
-  return localStorage.getItem(`day_status_${ds}`) || '';
-}
-
-// 날짜 인덱스 (0=시작일)
 function dayIndex(dateS) {
   const d = new Date(dateS + 'T00:00:00');
   return Math.round((d - START) / 86400000);
@@ -327,34 +307,34 @@ let selectedDay = new Date().getDay();
 function render() {
   const now = new Date();
   const ds  = todayStr();
-  const idx = dayIndex(ds); // 0-based
-  const dNum = GOAL - idx;  // D-100, D-99 ...
+  const idx = dayIndex(ds);
+  const dNum = GOAL - idx;
 
-  // D-day
-  document.getElementById('ddayNum').textContent = 'D-' + Math.max(dNum, 1);
-  document.getElementById('ddaySub').textContent = (idx + 1) + '일째 / 100일';
+  document.getElementById('ddayNum').textContent = 'D-' + Math.max(dNum, idx >= GOAL ? 0 : 1);
+  if (idx < 0) {
+    document.getElementById('ddayNum').textContent = 'D-' + GOAL;
+    document.getElementById('ddaySub').textContent = '시작 전';
+  } else {
+    document.getElementById('ddayNum').textContent = 'D-' + Math.max(GOAL - idx, 0);
+    document.getElementById('ddaySub').textContent = (idx + 1) + '일째 / 100일';
+  }
 
-  // 날짜
   document.getElementById('dateBar').textContent =
     `${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 ${DAYS[now.getDay()]}요일`;
 
-  // 탭
   document.querySelectorAll('.day-tab').forEach(t => {
     t.classList.toggle('active', parseInt(t.dataset.day) === selectedDay);
   });
   document.getElementById('todayBadge').textContent = DAYS[selectedDay] + '요일';
 
-  // 업로드 계획
   const planEl = document.getElementById('uploadPlan');
   planEl.innerHTML = '';
   (uploadSchedule[selectedDay] || []).forEach(item => planEl.appendChild(makeTaskItem(item)));
 
-  // 매일 할 일
   const dailyEl = document.getElementById('dailyTasks');
   dailyEl.innerHTML = '';
   dailyTasks.forEach(item => dailyEl.appendChild(makeTaskItem(item)));
 
-  // 진행률
   const todayItems = [...(uploadSchedule[now.getDay()] || []), ...dailyTasks];
   const done  = todayItems.filter(i => isChecked(i.key)).length;
   const total = todayItems.length;
@@ -362,10 +342,8 @@ function render() {
   document.getElementById('progressBar').style.width = pct + '%';
   document.getElementById('progressLabel').textContent = `${done} / ${total} 완료 (${pct}%)`;
 
-  // 100칸 트래커
   renderTrack(idx);
 
-  // 칭찬 메시지
   const existing = document.getElementById('praiseBox');
   if (done === total && total > 0) {
     if (!existing) {
@@ -396,7 +374,6 @@ function renderTrack(todayIdx) {
     const status = getDayStatus(ds);
     if (i === todayIdx) cell.classList.add('today');
     if (i < todayIdx) {
-      // 지난 날: done이면 보라, 아니면 빨강
       cell.classList.add(status === 'done' ? 'done' : 'missed');
     } else if (i === todayIdx) {
       if (status === 'done') cell.classList.add('done');
